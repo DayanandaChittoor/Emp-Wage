@@ -11,10 +11,7 @@ MAX_HRS_MONTH=20
 totalWorkingDays=0
 totalEmpHrs=0
 
-while [ $totalEmpHrs -lt $MAX_HRS_MONTH ] && [ $totalWorkingDays -lt $WORKING_DAYS ]
-do
-
-empCheck=$((RANDOM%3))
+function workHours() {
 
 case $empCheck in 
 	$IS_FUL_TIME)
@@ -24,11 +21,17 @@ case $empCheck in
 		empHrs=4
 		;;
 	*)
-	empHrs=0
+		empHrs=00
 		;;
 esac
 
+}
+
+while [ $totalEmpHrs -lt $MAX_HRS_MONTH ] && [ $totalWorkingDays -lt $WORKING_DAYS ]
+do 
+	workHours $((RANDOM%3))
 totalEmpHrs=$(($totalEmpHrs+$empHrs))
+	((totalWorkingDays++))
 done
 
 totalSalary=$((totalEmpHrs*$EMP_RATE_PER_HR))
